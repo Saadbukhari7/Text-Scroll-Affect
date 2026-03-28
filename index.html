@@ -1,0 +1,77 @@
+<style>/* SCROLL TEXT SECTION STYLES */
+.scroll-text-section {
+  padding: 96px 0;
+
+  overflow: hidden;
+  background-color: #F0EBE6 !important;
+}
+
+.scroll-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.scroll-line {
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: 50px;
+  font-weight: 500;
+  color: #2d2a26;
+  white-space: nowrap;
+  margin: 0;
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+@media (max-width: 768px) {
+  .scroll-line {
+    font-size: 28px;
+  }
+  
+  .scroll-text-section {
+    padding: 64px 0;
+  }
+}
+</style>
+
+<!-- HORIZONTAL SCROLL TEXT SECTION -->
+<section class="scroll-text-section">
+  <div class="scroll-text-wrapper">
+    <h2 class="scroll-line scroll-line-1">Work from anywhere • Set your schedule</h2>
+    <h2 class="scroll-line scroll-line-2">• Build assets that earn while you rest</h2>
+  </div>
+</section>
+<script>// SCROLL TEXT ANIMATION
+document.addEventListener('DOMContentLoaded', function() {
+  const section = document.querySelector('.scroll-text-section');
+  const line1 = document.querySelector('.scroll-line-1');
+  const line2 = document.querySelector('.scroll-line-2');
+
+  if (!section || !line1 || !line2) return;
+
+  function updateScrollText() {
+    const rect = section.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    const sectionCenter = rect.top + rect.height / 2;
+    const viewportCenter = windowHeight / 2;
+    
+    // Progress: -1 below center, 0 at center, +1 above center
+    const distanceFromCenter = viewportCenter - sectionCenter;
+    const maxDistance = windowHeight / 2 + rect.height / 2;
+    const progress = Math.max(-1, Math.min(1, distanceFromCenter / maxDistance));
+
+    // Movement: 0 at center, spreads apart as you scroll
+    const movement = progress * 500;
+    
+    line1.style.transform = 'translateX(' + movement + 'px)';
+    line2.style.transform = 'translateX(' + (-movement) + 'px)';
+  }
+
+  window.addEventListener('scroll', function() {
+    requestAnimationFrame(updateScrollText);
+  });
+  
+  updateScrollText();
+});
+</script>
